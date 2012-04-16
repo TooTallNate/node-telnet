@@ -57,6 +57,8 @@ var OPTIONS = {
   , ENVIRONMENT_VARIABLES: 39  // http://tools.ietf.org/html/rfc1572
 }
 
+var IAC_BUF = new Buffer([ COMMANDS.IAC ])
+
 var COMMAND_NAMES = Object.keys(COMMANDS).reduce(function (names, name) {
   names[COMMANDS[name]] = name.toLowerCase()
   return names
@@ -87,22 +89,29 @@ COMMAND_IMPLS[COMMANDS.SB] = function (bufs, i, event) {
   return parseOption(bufs, i, event)
 }
 
+// IAC
+//   this will happen in "binary" mode, two IAC bytes needs to be translated
+//   into 1 "data" event with a 1-length Buffer of value 255.
+COMMAND_IMPLS[COMMANDS.IAC] = function (bufs, i, event) {
+  event.buf = bufs.splice(0, i).toBuffer()
+  event.data = event.buf.splice(1)
+  return event
+}
+
 
 
 
 var OPTION_IMPLS = {}
-OPTION_IMPLS[OPTIONS.ECHO] = function (bufs, i, event) {
-  event.buf = bufs.splice(0, i).toBuffer()
-  //console.error('echo:', event, bufs)
-  return event
-}
+// these ones don't take any arguments
+OPTION_IMPLS[OPTIONS.ECHO] =
+OPTION_IMPLS[OPTIONS.TRANSMIT_BINARY] =
 OPTION_IMPLS[OPTIONS.SUPPRESS_GO_AHEAD] = function (bufs, i, event) {
   event.buf = bufs.splice(0, i).toBuffer()
-  //console.error('suppress go ahead:', event, bufs)
   return event
 }
+
 OPTION_IMPLS[OPTIONS.WINDOW_SIZE] = function (bufs, i, event) {
-  if (event.commandCode === COMMANDS.WILL) {
+  if (event.commandCode !== COMMANDS.SB) {
     event.buf = bufs.splice(0, i).toBuffer()
   } else {
     // receiving a "resize" event
@@ -191,10 +200,7 @@ net.createServer(function (socket) {
 
 
 
-  console.error('socket connected')
-
   var bufs = Buffers()
-  var iacbuf = new Buffer([ COMMANDS.IAC ])
 
   socket.on('end', function () {
     client.emit('end')
@@ -205,13 +211,11 @@ net.createServer(function (socket) {
     bufs.push(b)
 
     var i
-    while ((i = bufs.indexOf(iacbuf)) >= 0) {
-      //console.error('got IAC byte at index', i)
+    while ((i = bufs.indexOf(IAC_BUF)) >= 0) {
       assert(bufs.length > (i+1))
       if (i > 0) {
         var data = bufs.splice(0, i).toBuffer()
         client.emit('data', data)
-        //console.error(0, 'regular data', data)
       }
       i = parse(bufs)
       if (i === MORE) {
@@ -239,12 +243,19 @@ net.createServer(function (socket) {
   console.error('sending DO "suppress go ahead" command:', sga)
   socket.write(sga)
 
-  var naws = Buffer(3)
+  var sga = Buffer(3)
+  sga[0] = COMMANDS.IAC
+  sga[1] = COMMANDS.DO
+  sga[2] = OPTIONS.TRANSMIT_BINARY
+  console.error('sending DO "suppress go ahead" command:', sga)
+  socket.write(sga)
+
+  /*var naws = Buffer(3)
   naws[0] = COMMANDS.IAC
   naws[1] = COMMANDS.DO
   naws[2] = OPTIONS.WINDOW_SIZE
   console.error('sending DO "negotiate about window size" command:', naws)
-  socket.write(naws)
+  socket.write(naws)*/
 
   var echo = Buffer(3)
   echo[0] = COMMANDS.IAC
@@ -253,20 +264,11 @@ net.createServer(function (socket) {
   console.error('sending WILL "echo" command:', echo)
   socket.write(echo)
 
-  socket.once('data', function (b) {
-    var sga = Buffer(3)
-    sga[0] = COMMANDS.IAC
-    sga[1] = COMMANDS.WILL
-    sga[2] = OPTIONS.SUPPRESS_GO_AHEAD
-    console.error('sending WILL "suppress go ahead" command:', sga)
-    socket.write(sga)
-
-    /*var echo = Buffer(3)
-    echo[0] = COMMANDS.IAC
-    echo[1] = COMMANDS.DO
-    echo[2] = OPTIONS.ECHO
-    console.error('sending DO "echo" command:', echo)
-    socket.write(echo)*/
-  })
+  var sga = Buffer(3)
+  sga[0] = COMMANDS.IAC
+  sga[1] = COMMANDS.WILL
+  sga[2] = OPTIONS.SUPPRESS_GO_AHEAD
+  console.error('sending WILL "suppress go ahead" command:', sga)
+  socket.write(sga)
 
 }).listen(1337)
