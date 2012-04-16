@@ -44,17 +44,17 @@ var COMMANDS = {
 }
 
 var OPTIONS = {
-    TRANSMIT_BINARY: 0
-  , ECHO: 1
-  , SUPPRESS_GO_AHEAD: 3
-  , STATUS: 5
-  , TIMING_MARK: 6
-  , TERMINAL_TYPE: 24
-  , WINDOW_SIZE: 31
-  , TERMINAL_SPEED: 32
-  , REMOTE_FLOW_CONTROL: 33
-  , LINEMODE: 34
-  , ENVIRONMENT_VARIABLES: 36
+    TRANSMIT_BINARY: 0         // http://tools.ietf.org/html/rfc856
+  , ECHO: 1                    // http://tools.ietf.org/html/rfc857
+  , SUPPRESS_GO_AHEAD: 3       // http://tools.ietf.org/html/rfc858
+  , STATUS: 5                  // http://tools.ietf.org/html/rfc859
+  , TIMING_MARK: 6             // http://tools.ietf.org/html/rfc860
+  , TERMINAL_TYPE: 24          // http://tools.ietf.org/html/rfc1091
+  , WINDOW_SIZE: 31            // http://tools.ietf.org/html/rfc1073
+  , TERMINAL_SPEED: 32         // http://tools.ietf.org/html/rfc1079
+  , REMOTE_FLOW_CONTROL: 33    // http://tools.ietf.org/html/rfc1372
+  , LINEMODE: 34               // http://tools.ietf.org/html/rfc1184
+  , ENVIRONMENT_VARIABLES: 39  // http://tools.ietf.org/html/rfc1572
 }
 
 var COMMAND_NAMES = Object.keys(COMMANDS).reduce(function (names, name) {
