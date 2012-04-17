@@ -179,16 +179,8 @@ net.createServer(function (socket) {
     console.error(0, 'client data:', b, b.toString())
   })
 
-  client.on('echo', function (event) {
-    console.error('client echo event:', event)
-  })
-
-  client.on('window size', function (event) {
-    console.error('client "window size" event:', event)
-  })
-
-  client.on('suppress go ahead', function (event) {
-    console.error('client SGA event:', event)
+  client.on('event', function (event) {
+    console.error('client "%s" event:', event.option, event)
   })
 
   client.on('end', function () {
@@ -202,12 +194,13 @@ net.createServer(function (socket) {
 
   var bufs = Buffers()
 
+  // proxy "end"
   socket.on('end', function () {
     client.emit('end')
   })
 
   socket.on('data', function (b) {
-    console.error(0, 'data', b, b.length, b.toString('utf8'))
+    //console.error(0, 'data', b, b.length, b.toString('utf8'))
     bufs.push(b)
 
     var i
@@ -222,17 +215,20 @@ net.createServer(function (socket) {
         console.error('need to wait for more...')
         break
       } else {
-        //console.error('parse() result:', i)
         client.emit('event', i)
         client.emit(i.command, i)
-        client.emit(i.option, i)
+        if (i.option) {
+          client.emit(i.option, i)
+        }
+        if (i.data) {
+          client.emit('data', i.data)
+        }
       }
     }
     if (i !== MORE && bufs.length > 0) {
       // we got regular data!
       var data = bufs.splice(0).toBuffer()
       client.emit('data', data)
-      //console.error(0, 'regular data', data)
     }
   })
 
@@ -247,15 +243,15 @@ net.createServer(function (socket) {
   sga[0] = COMMANDS.IAC
   sga[1] = COMMANDS.DO
   sga[2] = OPTIONS.TRANSMIT_BINARY
-  console.error('sending DO "suppress go ahead" command:', sga)
+  console.error('sending DO "transmit binary" command:', sga)
   socket.write(sga)
 
-  /*var naws = Buffer(3)
+  var naws = Buffer(3)
   naws[0] = COMMANDS.IAC
   naws[1] = COMMANDS.DO
   naws[2] = OPTIONS.WINDOW_SIZE
   console.error('sending DO "negotiate about window size" command:', naws)
-  socket.write(naws)*/
+  socket.write(naws)
 
   var echo = Buffer(3)
   echo[0] = COMMANDS.IAC
