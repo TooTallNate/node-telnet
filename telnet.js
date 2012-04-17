@@ -14,17 +14,6 @@ var net = require('net')
   , Buffers = require('buffers')
   , Binary = require('binary')
 
-/*var CONTROL = {
-    NUL: 0 // null
-  , BEL: 7 // bell
-  , BS:  8 // backspace
-  , HT:  9 // horizontal tab
-  , LF: 10 // line feed
-  , VT: 11 // vertical tab
-  , FF: 12 // form feed
-  , CR: 13 // carriage return
-}*/
-
 var COMMANDS = {
     SE:  240 // end of subnegotiation parameters
   , NOP: 241 // no operation
