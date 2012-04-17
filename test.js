@@ -19,17 +19,7 @@ telnet.createServer(function (client) {
   })
 
   // 'readline' will call `setRawMode` when it is a function
-  client.setRawMode = function (mode) {
-    if (!!mode) {
-      client.do.suppress_go_ahead()
-      client.will.suppress_go_ahead()
-      client.will.echo()
-    } else {
-      client.dont.suppress_go_ahead()
-      client.wont.suppress_go_ahead()
-      client.wont.echo()
-    }
-  }
+  client.setRawMode = setRawMode
 
   // to have 'readline' autodetect the input for "terminal" mode
   client.isTTY = true
@@ -58,3 +48,15 @@ telnet.createServer(function (client) {
   r.context.socket = client
 
 }).listen(1337)
+
+function setRawMode (mode) {
+  if (!!mode) {
+    this.do.suppress_go_ahead()
+    this.will.suppress_go_ahead()
+    this.will.echo()
+  } else {
+    this.dont.suppress_go_ahead()
+    this.wont.suppress_go_ahead()
+    this.wont.echo()
+  }
+}
