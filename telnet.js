@@ -8,8 +8,9 @@
  */
 
 var net = require('net')
-  , Stream = require('stream')
   , assert = require('assert')
+  , debug = require('debug')('telnet')
+  , Stream = require('stream')
   , Buffers = require('buffers')
   , Binary = require('binary')
 
@@ -200,7 +201,7 @@ net.createServer(function (socket) {
   })
 
   socket.on('data', function (b) {
-    //console.error(0, 'data', b, b.length, b.toString('utf8'))
+    debug('incoming "data" event', b, b.toString('utf8'))
     bufs.push(b)
 
     var i
@@ -212,7 +213,7 @@ net.createServer(function (socket) {
       }
       i = parse(bufs)
       if (i === MORE) {
-        console.error('need to wait for more...')
+        debug('need to wait for more...')
         break
       } else {
         client.emit('event', i)
@@ -236,35 +237,35 @@ net.createServer(function (socket) {
   sga[0] = COMMANDS.IAC
   sga[1] = COMMANDS.DO
   sga[2] = OPTIONS.SUPPRESS_GO_AHEAD
-  console.error('sending DO "suppress go ahead" command:', sga)
+  debug('sending DO "suppress go ahead" command:', sga)
   socket.write(sga)
 
   var sga = Buffer(3)
   sga[0] = COMMANDS.IAC
   sga[1] = COMMANDS.DO
   sga[2] = OPTIONS.TRANSMIT_BINARY
-  console.error('sending DO "transmit binary" command:', sga)
+  debug('sending DO "suppress go ahead" command:', sga)
   socket.write(sga)
 
   var naws = Buffer(3)
   naws[0] = COMMANDS.IAC
   naws[1] = COMMANDS.DO
   naws[2] = OPTIONS.WINDOW_SIZE
-  console.error('sending DO "negotiate about window size" command:', naws)
+  debug('sending DO "negotiate about window size" command:', naws)
   socket.write(naws)
 
   var echo = Buffer(3)
   echo[0] = COMMANDS.IAC
   echo[1] = COMMANDS.WILL
   echo[2] = OPTIONS.ECHO
-  console.error('sending WILL "echo" command:', echo)
+  debug('sending WILL "echo" command:', echo)
   socket.write(echo)
 
   var sga = Buffer(3)
   sga[0] = COMMANDS.IAC
   sga[1] = COMMANDS.WILL
   sga[2] = OPTIONS.SUPPRESS_GO_AHEAD
-  console.error('sending WILL "suppress go ahead" command:', sga)
+  debug('sending WILL "suppress go ahead" command:', sga)
   socket.write(sga)
 
 }).listen(1337)
