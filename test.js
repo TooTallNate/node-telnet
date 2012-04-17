@@ -50,7 +50,7 @@ telnet.createServer(function (client) {
 }).listen(1337)
 
 function setRawMode (mode) {
-  if (!!mode) {
+  if (mode) {
     this.do.suppress_go_ahead()
     this.will.suppress_go_ahead()
     this.will.echo()
