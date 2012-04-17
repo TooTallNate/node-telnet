@@ -10,14 +10,11 @@ var telnet = require('./')
 telnet.createServer(function (client) {
 
   client.on('window size', function (e) {
-    console.error('window size:', e)
     if (e.command === 'sb') {
       // a real "resize" event; 'readline' listens for this
       client.columns = e.width
       client.rows = e.height
       client.emit('resize')
-    } else {
-      // 'will' or 'wont'
     }
   })
 
