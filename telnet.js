@@ -3,6 +3,7 @@
  * Telnet server implementation.
  *
  * References:
+ *  - http://tools.ietf.org/html/rfc854
  *  - http://support.microsoft.com/kb/231866
  *
  */
