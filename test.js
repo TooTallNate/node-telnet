@@ -47,7 +47,7 @@ telnet.createServer(function (client) {
   //client.setRawMode(true)
 
   // create the REPL
-  repl.start({
+  var r = repl.start({
       input: client
     , output: client
     , prompt: 'telnet repl> '
@@ -55,5 +55,9 @@ telnet.createServer(function (client) {
   }).on('exit', function () {
     client.end()
   })
+
+  r.context.r = r
+  r.context.client = client
+  r.context.socket = client
 
 }).listen(1337)
