@@ -12,7 +12,6 @@
       "binary": "*"
     , "buffers": "*"
     , "debug": "*"
-    , "strtok": "*"
   }
 , "devDependencies": {
       "mocha": "*"
