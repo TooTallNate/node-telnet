@@ -10,10 +10,12 @@ features.
 
 ### Implemented Commands:
 
- * Binary transmission ([RFC856](http://tools.ietf.org/html/rfc856))
- * Echo ([RFC857](http://tools.ietf.org/html/rfc857))
- * Suppress Go Ahead ([RFC858](http://tools.ietf.org/html/rfc858))
- * Window Size ([RFC1073](http://tools.ietf.org/html/rfc1073))
+| **Name**            | **Event**             |**RFC**
+|:--------------------|:----------------------|:-------------------------
+| Binary transmission | `'transmit binary'`   | ([RFC856](http://tools.ietf.org/html/rfc856))
+| Echo                | `'echo'`              | ([RFC857](http://tools.ietf.org/html/rfc857))
+| Suppress Go Ahead   | `'suppress go ahead'` | ([RFC858](http://tools.ietf.org/html/rfc858))
+| Window Size         | `'window size'`       | ([RFC1073](http://tools.ietf.org/html/rfc1073))
 
 
 Installation
