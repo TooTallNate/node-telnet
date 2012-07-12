@@ -8,7 +8,7 @@ This module offers an implementation of the [Telnet Protocol (RFC854)][rfc],
 making it possible to write a telnet server that can interact with basic telnet
 features.
 
-### Implemented Commands:
+### Implemented Options:
 
 | **Name**            | **Event**             |**Specification**
 |:--------------------|:----------------------|:-------------------------
