@@ -6,8 +6,9 @@
 
 var telnet = require('./')
   , repl = require('repl')
+  , port = Number(process.argv[2]) || 1337
 
-telnet.createServer(function (client) {
+var server = telnet.createServer(function (client) {
 
   client.on('window size', function (e) {
     if (e.command === 'sb') {
@@ -17,6 +18,13 @@ telnet.createServer(function (client) {
       client.emit('resize')
     }
   })
+
+  client.on('x display location', console.log)
+  client.on('terminal speed', console.log)
+  client.on('environment variables', console.log)
+  client.on('status', console.log)
+  client.on('linemode', console.log)
+  client.on('authentication', console.log)
 
   // 'readline' will call `setRawMode` when it is a function
   client.setRawMode = setRawMode
@@ -42,7 +50,27 @@ telnet.createServer(function (client) {
   r.context.client = client
   r.context.socket = client
 
-}).listen(1337)
+})
+
+server.on('error', function (err) {
+  if (err.code == 'EACCES') {
+    console.error('%s: You must be "root" to bind to port %d', err.code, port)
+  } else {
+    throw err
+  }
+})
+
+server.on('listening', function () {
+  console.log('node repl telnet(1) server listening on port %d', this.address().port)
+  console.log('  $ telnet localhost %d', port)
+})
+
+server.listen(port)
+
+/**
+ * The equivalent of "raw mode" via telnet option commands.
+ * Set this function on a telnet `client` instance.
+ */
 
 function setRawMode (mode) {
   if (mode) {
