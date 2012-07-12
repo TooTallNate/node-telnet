@@ -13,8 +13,8 @@ var server = telnet.createServer(function (client) {
   client.on('window size', function (e) {
     if (e.command === 'sb') {
       // a real "resize" event; 'readline' listens for this
-      client.columns = e.width
-      client.rows = e.height
+      client.columns = e.columns
+      client.rows = e.rows
       client.emit('resize')
     }
   })
