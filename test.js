@@ -62,7 +62,7 @@ server.on('error', function (err) {
 
 server.on('listening', function () {
   console.log('node repl telnet(1) server listening on port %d', this.address().port)
-  console.log('  $ telnet localhost %d', port)
+  console.log('  $ telnet localhost' + (port != 23 ? ' ' + port : ''))
 })
 
 server.listen(port)
