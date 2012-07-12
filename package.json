@@ -13,7 +13,4 @@
     , "buffers": "*"
     , "debug": "*"
   }
-, "devDependencies": {
-      "mocha": "*"
-  }
 }
