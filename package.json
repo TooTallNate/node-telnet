@@ -16,5 +16,4 @@
 , "devDependencies": {
       "mocha": "*"
   }
-, "engines": { "node": "*" }
 }
