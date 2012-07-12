@@ -6,7 +6,7 @@
 , "repository": { "type": "git", "url": "git://github.com/TooTallNate/node-telnet.git" }
 , "main": "./lib/telnet.js"
 , "scripts": {
-      "test": "mocha --reporter spec"
+      "test": "echo \"Error: no test specified\" && exit 1"
   }
 , "dependencies": {
       "binary": "*"
