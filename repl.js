@@ -19,9 +19,13 @@ var server = telnet.createServer(function (client) {
     }
   })
 
+  client.on('suppress go ahead',  console.log)
+  client.on('echo', console.log)
+  client.on('window size', console.log)
   client.on('x display location', console.log)
   client.on('terminal speed', console.log)
   client.on('environment variables', console.log)
+  client.on('transmit binary', console.log)
   client.on('status', console.log)
   client.on('linemode', console.log)
   client.on('authentication', console.log)
