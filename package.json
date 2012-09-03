@@ -1,7 +1,7 @@
 { "name": "telnet"
 , "description": "Telnet implementation for Node.js"
 , "keywords": [ "telnet" ]
-, "version": "0.0.0"
+, "version": "0.0.1"
 , "author": "Nathan Rajlich <nathan@tootallnate.net> (http://tootallnate.net)"
 , "repository": { "type": "git", "url": "git://github.com/TooTallNate/node-telnet.git" }
 , "main": "./lib/telnet.js"
