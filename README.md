@@ -54,7 +54,7 @@ telnet.createServer(function (client) {
     client.write(b)
   })
 
-  client.write('connected to Telnet server!')
+  client.write('\nConnected to Telnet server!\n')
 
 }).listen(23)
 ```
@@ -63,7 +63,13 @@ And then you can connect to your server using `telnet(1)`
 
 ``` bash
 $ telnet localhost
-connected to Telnet server!
+Trying ::1...
+telnet: connect to address ::1: Connection refused
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+
+Connected to Telnet server!
 ```
 
 
