@@ -1,7 +1,7 @@
 { "name": "telnet"
 , "description": "Telnet implementation for Node.js"
 , "keywords": [ "telnet" ]
-, "version": "0.0.1"
+, "version": "0.0.2"
 , "author": "Nathan Rajlich <nathan@tootallnate.net> (http://tootallnate.net)"
 , "repository": { "type": "git", "url": "git://github.com/TooTallNate/node-telnet.git" }
 , "main": "./lib/telnet.js"
@@ -9,8 +9,8 @@
       "test": "echo \"Error: no test specified\" && exit 1"
   }
 , "dependencies": {
-      "binary": "*"
-    , "buffers": "*"
-    , "debug": "*"
+      "binary": "~0.3"
+    , "buffers": "~0.1"
+    , "debug": "~0.7"
   }
 }
