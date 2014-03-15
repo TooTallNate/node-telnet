@@ -26,12 +26,11 @@ describe('telnet', function() {
 		});
 
 		after(function(done) {
-			client.end(function() {
-				client = null;
-				server.close(function() {
-					server = null;
-					done();
-				});
+			client.end();
+			client = null;
+			server.close(function() {
+				server = null;
+				done();
 			});
 		});
 
