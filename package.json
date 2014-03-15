@@ -11,7 +11,7 @@
 , "dependencies": {
       "binary": "^0.3.0"
     , "buffers": "^0.1.1"
-    , "debug": "^0.7.4"
+    , "debug": "*"
   }
 , "devDependencies": {
 			"mocha": "^1.18.0"
