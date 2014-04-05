@@ -4,7 +4,7 @@
 , "version": "0.0.1"
 , "author": "Nathan Rajlich <nathan@tootallnate.net> (http://tootallnate.net)"
 , "repository": { "type": "git", "url": "git://github.com/TooTallNate/node-telnet.git" }
-, "main": "index.js"
+, "main": "lib/telnet.js"
 , "scripts": {
       "test": "mocha --reporter spec"
   }
