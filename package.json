@@ -1,19 +1,25 @@
-{ "name": "telnet"
-, "description": "Telnet implementation for Node.js"
-, "keywords": [ "telnet" ]
-, "version": "0.0.1"
-, "author": "Nathan Rajlich <nathan@tootallnate.net> (http://tootallnate.net)"
-, "repository": { "type": "git", "url": "git://github.com/TooTallNate/node-telnet.git" }
-, "main": "lib/telnet.js"
-, "scripts": {
-      "test": "mocha --reporter spec"
+{
+  "name": "telnet",
+  "description": "Telnet implementation for Node.js",
+  "keywords": [
+    "telnet"
+  ],
+  "version": "0.0.1",
+  "author": "Nathan Rajlich <nathan@tootallnate.net> (http://tootallnate.net)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/TooTallNate/node-telnet.git"
+  },
+  "main": "lib/telnet.js",
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
+  "dependencies": {
+    "binary": "~0.3.0",
+    "buffers": "~0.1.1",
+    "debug": "~0.8.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.18.2"
   }
-, "dependencies": {
-      "binary": "~0.3.0"
-    , "buffers": "~0.1.1"
-    , "debug": "~0.8.0"
-  }
-, "devDependencies": {
-			"mocha": "~1.18.2"
-	}
 }
