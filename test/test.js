@@ -1,10 +1,11 @@
 var assert = require('assert');
 var telnet = require('../');
 var net = require('net');
+var buffer = require('buffer');
 
-var client_responder = null;
-var client = null;
-var server = null;
+var clientToServer;
+var serverToClient;
+var server;
 var port = 1337;
 
 describe('telnet', function () {
@@ -13,21 +14,22 @@ describe('telnet', function () {
   });
 
   describe('create server', function () {
-    before(function (done) {
+    beforeEach(function (done) {
       server = telnet.createServer(function (c) {
-        c.on('data', function (b) {
-          c.write(b);
+        serverToClient = c;
+        done();
+      });
+      server.on('listening', function () {
+        clientToServer = net.connect({port: port}, function () {
+          // we will detect this via above connection to server.
         });
       });
       server.listen(port);
-      server.on('listening', function () {
-        done();
-      });
     });
 
-    after(function (done) {
-      client.end(function () {
-        client = null;
+    afterEach(function (done) {
+      clientToServer.end(function () {
+        clientToServer = null;
         server.close(function () {
           server = null;
           done();
@@ -35,21 +37,31 @@ describe('telnet', function () {
       });
     });
 
-    it('should be listening on port ' + port, function (done) {
-      client = net.connect({port: port}, function () {
-        done();
-      });
-    });
-
     it('should echo any data sent to it', function (done) {
       var stringToSend = 'test string';
-      client.on('data', function (b) {
+
+      serverToClient.on('data', function (b) {
+        serverToClient.write(b);
+      });
+
+      clientToServer.on('data', function (b) {
         b = b.toString('utf8');
         assert.equal(stringToSend, b);
         done();
       });
 
-      client.write(stringToSend);
+      clientToServer.write(stringToSend);
+    });
+
+    it('should capture window size events with no arguments', function (done) {
+      serverToClient.on('window size', function (b) {
+        assert.equal(b.command, 'do');
+        assert.equal(b.data, null);
+        done();
+      });
+
+      // IAC DO NAWS
+      clientToServer.write(new buffer.Buffer([0xFF, 0xFD, 0x1F]));
     });
   });
 });
