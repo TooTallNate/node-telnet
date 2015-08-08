@@ -5,7 +5,7 @@ var net = require('net');
 var client_responder = null;
 var client = null;
 var server = null;
-var port = 1337;
+var port = 10987;
 
 describe('telnet', function () {
   it('should export a function', function () {
