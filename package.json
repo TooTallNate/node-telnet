@@ -14,11 +14,6 @@
   "scripts": {
     "test": "mocha --reporter spec"
   },
-  "dependencies": {
-    "binary": "~0.3.0",
-    "buffers": "~0.1.1",
-    "debug": "~0.8.0"
-  },
   "devDependencies": {
     "mocha": "~1.18.2"
   }
