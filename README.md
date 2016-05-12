@@ -16,7 +16,7 @@ telnet features.
 | Echo                | `'echo'`              | [RFC857](http://tools.ietf.org/html/rfc857)
 | Suppress Go Ahead   | `'suppress go ahead'` | [RFC858](http://tools.ietf.org/html/rfc858)
 | Window Size         | `'window size'`       | [RFC1073](http://tools.ietf.org/html/rfc1073)
-| Com Port Option     | `'com port option'`   | [RFC1073](http://tools.ietf.org/html/rfc2217)
+| Com Port Option     | `'com port option'`   | [RFC2217](http://tools.ietf.org/html/rfc2217)
 
 Installation
 ------------
