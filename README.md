@@ -16,7 +16,7 @@ telnet features.
 | Echo                | `'echo'`              | [RFC857](http://tools.ietf.org/html/rfc857)
 | Suppress Go Ahead   | `'suppress go ahead'` | [RFC858](http://tools.ietf.org/html/rfc858)
 | Window Size         | `'window size'`       | [RFC1073](http://tools.ietf.org/html/rfc1073)
-
+| Com Port Option     | `'com port option'`   | [RFC2217](http://tools.ietf.org/html/rfc2217)
 
 Installation
 ------------
@@ -47,6 +47,11 @@ telnet.createServer(function (client) {
     if (e.command === 'sb') {
       console.log('telnet window resized to %d x %d', e.width, e.height)
     }
+  })
+
+  // listen for com port option events from the client
+  client.on('com port option', function (c) {
+    console.log('com port set %s to %d', c.name, c.value)
   })
 
   // listen for the actual data from the client

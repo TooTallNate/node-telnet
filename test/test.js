@@ -24,7 +24,7 @@ describe('telnet', function () {
         done();
       });
     });
-
+    /*
     after(function (done) {
       client.end(function () {
         client = null;
@@ -34,7 +34,7 @@ describe('telnet', function () {
         });
       });
     });
-
+    */
     it('should be listening on port ' + port, function (done) {
       client = net.connect({port: port}, function () {
         done();
