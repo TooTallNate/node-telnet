@@ -6,6 +6,7 @@
   ],
   "version": "0.0.1",
   "author": "Nathan Rajlich <nathan@tootallnate.net> (http://tootallnate.net)",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git://github.com/TooTallNate/node-telnet.git"
